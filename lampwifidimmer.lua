@@ -1,6 +1,3 @@
-# Lamp-wifi-dimmer
-Lamp wifi dimmer
-````c
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
@@ -125,4 +122,3 @@ unsigned long sendNTPpacket(IPAddress& address)
   udp.endPacket();
   
 }
-````
