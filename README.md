@@ -1,13 +1,8 @@
 # Lamp-wifi-dimmer
 Lamp wifi dimmer
+````c
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-
-
-
-
-
-
 
 const int ledPin = 9;      // the pin that the LED is attached to
 
@@ -130,3 +125,4 @@ unsigned long sendNTPpacket(IPAddress& address)
   udp.endPacket();
   
 }
+````
