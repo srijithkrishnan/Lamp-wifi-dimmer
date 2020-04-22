@@ -1,0 +1,686 @@
+ThingWorx Installation Guide : Dev and Test
+Environment
+This document is intended to describe the procedure to install the Thermo Fisher Dev environment.
+Requirements
+Hardware Sizing
+Required Software
+Installing ThingWorx
+Install Java and Apache Tomcat
+Install and Configure PostgreSQL
+Install ThingWorx
+Required Files
+setEnv.sh
+tomcat9.0.init.d
+platform-settings.json
+
+Requirements
+Hardware Sizing
+Aspect
+
+Value
+
+Comment
+
+Memory
+
+16 GB
+
+Configuration will require a percent of
+dedicated memory to be allocated to the
+Java VM.
+
+CPU(s)
+
+4 Cores
+
+Virtualized environments may have their
+own terminology for specifying how many
+CPUs/Cores are being provided. This must
+be taken into account when determining if
+the environment meets the minimum
+requirements.
+The amount of concurrent query activity,
+indexing and searching, as well as the
+amount of internal event and/or property
+data-change may warrant increased CPU
+resources.
+
+Disk Type
+
+*
+
+Server-class hardware is recommended.
+
+Disk Space
+
+100GB
+
+This size will accommodate the default
+ThingWorx web application installed in
+Tomcat, along with the initial
+ThingworxStorage (DB) directory and some
+initial configuration data.
+• This does NOT include the space
+required for the OS or other
+prerequisite software.
+• An additional 100GB of space is
+required if ThingWorx Flow is also
+installed (for a total minimum of 200GB
+of disk space).
+• The total disk space required for any
+given application depends on the
+amount of configuration and runtime
+data that will be maintained. Customers
+should work with Sales and Field
+Enablement to estimate space needs
+according to their application
+requirements.
+
+Disk Speed
+
+10000 RPM or SSD
+
+Speed is important if you are storing data
+on the ThingWorx Core. ThingWorx
+recommends the fastest disk(s) you can
+afford, but you should not use disks slower
+than 10000 RPM.
+• You may wish to consider a RAID
+configuration to increase disk
+performance
+• If you will be executing regular system
+backups, it is HIGHLY recommended to
+use an additional physical disk on its
+own controller - not simply a separate
+partition on the same physical disk.
+
+Required Software
+For more information on required softwares, see Software Requirements in Thingworx.
+
+Installing ThingWorx
+Install Java and Apache Tomcat
+1. Install and Configure Network Time Protocol (NTP) settings for time synchronization:
+
+sudo yum install ntp
+
+2. Edit AUTHBIND properties to allow Tomcat to bind to ports below 1024:
+
+sudo yum install authbind
+
+3. Download the Java JDK tar file from Oracle’s website.
+4. Extract tar file
+
+tar -xvzf jdk-8u241-linux-x64.tar.gz
+
+5. Create the directory by moving the JDK to /usr/lib/jvm:
+
+sudo mkdir -p /usr/lib/jvm
+mv jdk1.8.0_241/ /usr/lib/jvm/
+
+6. Add alternatives to the system
+
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib
+/jvm/jdk1.8.0_241/bin/java" 1
+sudo update-alternatives --install "/usr/bin/keytool" "keytool" "/usr
+/lib/jvm/jdk1.8.0_241/bin/keytool" 1
+
+7. Change access permissions
+
+sudo chmod a+x /usr/bin/java
+sudo chmod a+x /usr/bin/keytool
+
+8. Change owner
+
+sudo chown -R root:root /usr/lib/jvm/jdk1.8.0_241/
+
+9. Configure master links
+
+sudo update-alternatives --config java
+sudo update-alternatives --config keytool
+
+10. Verify Java version
+
+java -version
+
+This should return something similar to the following (build specifics may be different): `java version "1.8.0_xxx"`
+
+Java(TM) SE Runtime Environment (build 1.8.0_xxx-bxx)
+Java HotSpot(TM) 64-Bit Server VM (build xx.xx-bxx, mixed mode)
+
+11.
+
+11. Download Apache Tomcat
+
+12. Extract tar file
+
+tar -xvzf apache-tomcat-9.0.30.tar.gz
+
+13. Create and change the owner for /usr/share/tomcat9.0 and move Tomcat to the following location. Add user and group to the
+system:
+
+sudo mkdir -p /usr/share/tomcat9.0
+sudo mv apache-tomcat-9.0.30 /usr/share/tomcat9.0/9.0.30
+groupadd --system tomcat9.0
+sudo adduser --system -d /usr/share/tomcat9.0/ --no-create-home -g
+tomcat9.0 -s /bin/nologin tomcat9.0
+sudo chown -R tomcat9.0:tomcat9.0 /usr/share/tomcat9.0
+// add those 2 lines at the end of the /etc/bashrc
+nano /etc/bashrc
+
+14. Define environment variables in /etc/environment
+
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_241
+export CATALINA_HOME=/usr/share/tomcat9.0/9.0.30
+
+15. Change directory to $CATALINA_HOME
+
+cd $CATALINA_HOME
+
+16. Change owner and access permissions of bin/, lib/, and webapps/
+
+sudo chown -Rh tomcat9.0:tomcat9.0 bin/ lib/ webapps/
+sudo chmod 775 bin/ lib/ webapps/
+
+17. Change owner and access permissions of usr/share/tomcat9.0/9.0xx
+
+sudo chown -R tomcat9.0:tomcat9.0 /usr/share/tomcat9.0/9.0.30
+sudo chmod -R 775 /usr/share/tomcat9.0/9.0.30
+
+18. Change owner and access permissions of conf/
+
+sudo chown -Rh root:tomcat9.0 conf/
+sudo chmod -R 650 conf/
+
+19. Change access permissions of logs/, temp/, and work/
+
+19.
+
+sudo chown -R tomcat9.0:adm logs/ temp/ work/
+sudo chmod 760 logs/ temp/ work/
+
+20. Create self-signed certificate
+
+sudo $JAVA_HOME/bin/keytool -genkey -alias tomcat9.0 -keyalg RSA keystore
+
+21. Follow the instructions to complete the certificate creation process.
+1. Set the keystore password.
+2. Follow the prompts to set up your security certificate.
+3. Set the tomcat8.5 user password to the same as the keystore password:
+
+$CATALINA_HOME/conf/.keystore
+sudo chown root:tomcat9.0 $CATALINA_HOME/conf/.keystore
+sudo chmod 640 $CATALINA_HOME/conf/.keystore
+
+22. For security reason desactivate AJP
+
+nano $CATALINA_HOME/conf/context.xml
+
+23. Uncomment the Manager element in $CATALINA_HOME/conf/context.xml to prevent sessions from persisting across restarts:
+
+<Manager pathname="" />
+
+24. In the location of the Tomcat installation, open conf/server.xml and search for the following line. If found, comment it out and save
+the file:
+
+nano $CATALINA_HOME/conf/server.xml
+<!-- <Connector port="8009" protocol="AJP/1.3" redirectPort="8443"
+/> -->
+
+the following line for the HTTS
+
+<Connector protocol="HTTP/1.1" port="8443" maxThreads="200"
+scheme="https" secure="true" SSLEnabled="true"
+keystoreFile="conf/.keystore" keystorePass="xxxxxxxxxxx"
+clientAuth="false" sslProtocol="TLS"/>
+sudo touch $CATALINA_HOME/bin/setenv.conf
+nano $CATALINA_HOME/bin/setenv.conf
+CATALINA_OPTS="$CATALINA_OPTS -Djava.library.path=${CATALINA_BASE}
+/webapps/Thingworx/WEB-INF/extensions \
+-Djava.timezone=UTC"
+JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Djava.net.
+preferIPv4Addresses=true"
+
+If you receive an error that the directory doesn’t exist, use the following commands to ensure port 443 works:
+
+sudo touch /etc/authbind/byport/443
+sudo chmod 700 /etc/authbind/byport/443
+sudo chown tomcat9.0:tomcat9.0 /etc/authbind/byport/443
+
+25. Define a user in $CATALINA_HOME/conf/tomcat-users.xml
+
+nano $CATALINA_HOME/conf/tomcat-users.xml
+<user username="<Tomcat user name> " password="<Tomcat password> "
+roles=
+"manager"/>
+
+26. Determine uid of tomcat9.0 user:
+
+id -u tomcat9.0
+
+27. Using this number, create an ID file in /etc/authbind/byuid/:
+
+sudo touch /etc/authbind/byuid/<uid>
+nano /etc/authbind/byuid/<uid>
+
+28. Edit the file from the step above and paste in the following:
+
+0.0.0.0/0:1,1023
+
+29. Change owner and access permissions of /etc/authbind/byuid/<uid>:
+
+29.
+
+sudo chown tomcat9.0:tomcat9.0 /etc/authbind/byuid/<uid>
+sudo chmod 700 /etc/authbind/byuid/<uid>
+
+30. Modify $CATALINA_HOME/bin/startup.sh to always use authbind:
+
+nano $CATALINA_HOME/bin/startup.sh
+
+Comment the following in the file:
+
+exec "$PRGDIR"/"$EXECUTABLE" start "$@"
+
+31. Add the following to the end of the file:
+
+exec authbind --deep "$PRGDIR"/"$EXECUTABLE" start "$@"
+
+32. In /etc/init.d, create tomcat9.0 file:
+
+touch /etc/init.d/tomcat9.0
+
+33. Edit the file and enter the following contents:
+
+nano /etc/init.d/tomcat9.0
+
+CATALINA_HOME=/usr/share/tomcat9.0/9.0.30
+case $1 in
+start)
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/startup.sh
+;;
+stop)
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/shutdown.sh
+;;
+restart)
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/shutdown.sh
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/startup.sh
+;;
+esac
+exit 0
+
+34. Change access permissions of etc/init.d/tomcat8.5 and create symbolic links:
+
+34.
+
+sudo chmod 755 /etc/init.d/tomcat9.0
+sudo ln -s /etc/init.d/tomcat9.0 /etc/rc1.d/K99tomcat
+sudo ln -s /etc/init.d/tomcat9.0 /etc/rc2.d/S99tomcat
+
+35. Set up Tomcat as a service to start on boot. Build JSVC if it is not already installed on your system. If it is already installed, skip and go
+to the next step:
+
+sudo yum install gcc
+
+36. Set up the Tomcat service on boot:
+
+cd /usr/share/tomcat9.0/9.0.30/bin/
+sudo tar xvfz commons-daemon-native.tar.gz
+cd commons-daemon-*-native-src/unix
+sudo ./configure --with-java=$JAVA_HOME
+sudo yum install make
+sudo make
+sudo cp jsvc ../..
+
+37. Create the Tomcat service file
+
+sudo touch /etc/systemd/system/tomcat9.0.service
+
+38. Open /etc/systemd/system/tomcat9.0.service in a text editor (as root):
+1. Paste the following in the Tomcat service file:
+
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=network.target
+[Service]
+Type=forking
+PIDFile=/var/run/tomcat.pid
+Environment=CATALINA_PID=/var/run/tomcat.pid
+Environment=JAVA_HOME=/usr/lib/jvm/jdk1.8.0_xxx
+Environment=CATALINA_HOME=/usr/share/tomcat9.0/9.0.xx
+Environment=CATALINA_BASE=/usr/share/tomcat9.0/9.0.xx
+Environment=CATALINA_OPTS=
+ExecStart=/usr/share/tomcat9.0/9.0.xx/bin/jsvc \
+-Dcatalina.home=${CATALINA_HOME} \
+-Dcatalina.base=${CATALINA_BASE} \
+-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true Dserver -Dd64 -XX:+UseNUMA \
+-XX:+UseG1GC -Dfile.encoding=UTF-8 \
+-Djava.library.path=${CATALINA_BASE}/webapps/Thingworx/WEB-INF
+/extensions \
+-cp ${CATALINA_HOME}/bin/commons-daemon.jar:${CATALINA_HOME}/bin
+/bootstrap.jar:${CATALINA_HOME}/bin/tomcat-juli.jar \
+-user tomcat9.0 \
+-java-home ${JAVA_HOME} \
+-pidfile /var/run/tomcat.pid \
+-errfile ${CATALINA_HOME}/logs/catalina.out \
+-outfile ${CATALINA_HOME}/logs/catalina.out \
+$CATALINA_OPTS \
+org.apache.catalina.startup.Bootstrap
+[Install]
+WantedBy=multi-user.target
+
+2. If the Tomcat service doesn't automatically start after reboot and you receive following error, on executing sudo systemctl enable
+tomcat9.0.service:
+
+update-rc.d: error: tomcatx.x Default-Start contains no
+runlevels, aborting.
+
+Then the following step is required:
+
+Remove the tomcat9.0 file located at /etc/init.d and rerun
+following command:
+sudo systemctl enable tomcat9.0.service
+
+39. Create a new file in the tomcat /bin file named setenv.sh:
+
+sudo touch $CATALINA_HOME/bin/setenv.sh
+nano $CATALINA_HOME/bin/setenv.sh
+CATALINA_OPTS="$CATALINA_OPTS -Djava.library.path=${CATALINA_BASE}
+/webapps/Thingworx/WEB-INF/extensions \
+-Djava.timezone=UTC"
+JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Djava.net.
+preferIPv4Addresses=true"
+
+40. In the location of the Tomcat installation, open CATALINA_HOME/conf/web.xml. Replace the default error page (default is stacktrace) by
+adding the following into the web.xml file. Place the following within the web-app tag (after the welcome-file-list tag ). A well-configured
+web application will override this default in CATALINA_HOME/webapps/APP_NAME/WEB-INF/web.xml so it won't cause problems.
+
+<error-page><exception-type>java.lang.Throwable</exceptiontype><location>/error.jsp</location></error-page>
+
+41. In the location of the Tomcat installation, open CATALINA_HOME/conf/server.xml. Add the following inside the <Host> </Host> tags:
+
+<Valve className="org.apache.catalina.valves.ErrorReportValve"
+showReport="false" showServerInfo="false" />
+
+42. Remove all the Tomcat webapps located in /<path_to_tomcat>/webapps/. Removing these apps prevents unnecessary access to
+Tomcat, specifically in the context that would allow users to view other users' cookies.
+
+43. PTC strongly recommends the use of TLS when running ThingWorx. For detailed instructions on setting up TLS, refer to this technical
+support article.
+
+44. If your application requires a specific cipher suite, refer to the following documentation for configuration information:
+https://www.jamf.com/jamf-nation/articles/384/configuring-supported-ciphers-for-tomcat-https-connections
+
+45. (OPTIONAL STEP) To increase the default cache settings that affect static file caching, add the following line within the <context><
+/context> tags in the $CATALINA_HOME/conf/context.xml file:
+
+<Resources cacheMaxSize="501200" cacheObjectMaxSize="2048" cacheTtl="
+60000"/>
+
+Increasing this setting improves performance and avoids the following message in Tomcat:
+WARNING: Unable to add the resource at [/Common/jquery/jquery-ui.js] to the cache because there was insufficient free space available
+after evicting expired cache entries - consider increasing the maximum size of the cache.
+
+Install and Configure PostgreSQL
+1. Download and install the appropriate version of PostgreSQL.
+
+sudo yum install postgresql96
+
+To set up the PostgreSQL database and tablespace, the thingworxPostgresDBSetup script must be configured and executed.
+2. Create the ThingworxPostgresqlStorage folder on the drive that the ThingworxStorage folder is located (in the root directory by
+default). Note the following:
+1. If you create the folder using the -d<databasename> command, you do not have to use the PostgreSQL user.
+2. You must specify the -l option to a path that exists. For example, -l D:\ThingworxPostgresqlStorage. The script does
+not create the folder for you.
+3. The folder must have appropriate ownership and access rights. It should be owned by the same user who runs the PostgreSQL
+service, and have Full Control assigned to that user - this user is generally NETWORK_SERVICE, but may differ in your
+environment.
+
+// option -d database - U usernmae -h hostname
+psql -h cl-gss-thingworx-storage-data.cpuz5conexqr.us-east-1.rds.
+amazonaws.com -U twxadmin -d thingworx
+
+3. If necessary, configure the script.
+
+sudo unzip MED-61111-CD-084_ThingWorx-Platform-Postgres-8-x-x.zip
+sudo yum install
+
+4. To set up the database and tablespace with a default PostgreSQL installation that has a PostgreSQL database and a PostgreSQL user
+name, enter:
+
+sudo sh thingworxPostgresSchemaSetup.sh
+
+-u twxadmin
+
+-d thingworx
+
+5. Execute the script.
+
+Install ThingWorx
+1. Create /ThingworxStorage and /ThingworxBackupStorage directories. If you haven’t already done so, create the /ThingworxP
+latform
+
+sudo mkdir /ThingworxStorage /ThingworxBackupStorage
+/ThingworxPlatform
+
+2. If you have not already done so, obtain the Thingworx.war file from PTC Software Downloads.
+
+3. Move the Thingworx.war to $CATALINA_HOME/webapps.
+
+sudo mv Thingworx.war $CATALINA_HOME/webapps
+sudo chown tomcat9.0:tomcat9.0 $CATALINA_HOME/webapps/Thingworx.war
+sudo chmod 775 $CATALINA_HOME/webapps/Thingworx.war
+
+4. Place the platform-settings.json in the ThingworxPlatform folder.
+
+5. Add the following AdministratorUserSettings section (in PlatformSettingsConfig) to your platform-settings.json file
+along with a password that is at least 14 characters long.
+
+{
+"PlatformSettingsConfig": {
+"AdministratorUserSettings": {
+"InitialPassword": "changeme"
+}
+}
+}
+
+If Tomcat fails to start and reports the error message: Check the InitialPassword setting in the AdministratorUserPassword section in
+platform-settings.json..., check the following:
+• The password setting exists in platform-settings.json
+• The password is valid (14 or more characters by default)
+• The platform-settings.json file is formatted correctly - bad formatting could lead to errors
+6. Enable extension import. By default, extension import is disabled for all users.
+Add the following to the platform-settings.json file. Update the following ExtensionPackageImportPolicy parameters to
+true to allow extensions to be imported.
+
+"ExtensionPackageImportPolicy": {
+"importEnabled": <true or false>,
+"allowJarResources": <true or
+false>,
+"allowJavascriptResources": <true
+or false>,
+"allowCSSResources": <true or
+false>,
+"allowJSONResources": <true or
+false>,
+"allowWebAppResources": <true or
+false>,
+"allowEntities": <true or false>,
+"allowExtensibleEntities": <true or
+false>
+},
+
+7. Configure licensing:
+Open the platform-settings.json file and add the following to the PlatformSettingsConfig section
+
+"LicensingConnectionSettings":{
+"username":"PTC Support site user
+name",
+"password":"PTC Support site password"
+}
+
+8. Start Tomcat. Verify that a license file (successful_license_capability_response.bin) is created in the ThingworxPlatform
+folder.
+
+9. To launch ThingWorx, go to
+https://gss-twx.tfctest.thermofisher.net/Thingworx/Composer/ or
+
+https://gss-twx.tfcdev.thermofisher.net/Thingworx/Composer/
+in a Web browser.
+
+10. Change the default password:
+1. In Composer, select Administrator > Change Password.
+2. In the Change Password window, enter Current Password, New Password, and Confirm Password.
+
+11. Select Done.
+
+12. (OPTIONAL STEP) To determine the status of your license, open the Monitoring>Subsystem>Licensing Subsystem Settings in
+Composer to confirm the list of features (licensed entities) included with the license. If there are no licensed entities present, you are in
+limited mode.
+
+Required Files
+setEnv.sh
+setEnv.sh
+CATALINA_OPTS="$CATALINA_OPTS -Djava.library.path=${CATALINA_BASE}/webapps/Thingworx/WEB-INF/extensions \
+
+-Djava.timezone=UTC"
+JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true"
+
+tomcat9.0.init.d
+tomcat9.0.init.d
+CATALINA_HOME=/usr/share/tomcat9.0/9.0.30
+case $1 in
+
+start)
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/startup.sh
+;;
+stop)
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/shutdown.sh
+;;
+restart)
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/shutdown.sh
+/bin/su -p -s /bin/sh tomcat8.5 $CATALINA_HOME/bin/startup.sh
+;;
+esac
+exit 0
+
+platform-settings.json
+platform-settings.json
+{
+"PlatformSettingsConfig": {
+"ExtensionPackageImportPolicy": {
+"importEnabled": true,
+"allowJarResources": true,
+"allowJavascriptResources": true,
+"allowCSSResources": true,
+"allowJSONResources": true,
+"allowWebAppResources": true,
+"allowEntities": true,
+"allowExtensibleEntities": true
+},
+"AdministratorUserSettings": {
+"InitialPassword": "xxxxxxxxxxxxxx"
+}
+},
+"ContentTypeSettings": {
+"supportedMediaEntityContentTypes": [
+"video/3gpp2",
+"x-unknown/x-unknown",
+"audio/x-aac",
+
+"audio/x-aiff",
+"video/x-ms-asf",
+"audio/basic",
+"video/x-msvideo",
+"image/cgm",
+"text/css",
+"application/vnd.ms-excel",
+"application/msword",
+"application/vnd.ms-word.document.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+"application/vnd.ms-word.template.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.wordprocessingml.template",
+"image/vnd.dwg",
+"image/vnd.dxf",
+"application/x-msmetafile",
+"audio/flac",
+"application/x-gtar",
+"application/x-gzip",
+"text/html",
+"image/x-icon",
+"model/iges",
+"application/x-iso9660-image",
+"application/json",
+"video/mpeg",
+"audio/x-mpegurl",
+"audio/mp4",
+"video/mp4",
+"audio/midi",
+"video/quicktime",
+"audio/mpeg",
+"application/msproject",
+"application/msoutlook",
+"application/octet-stream",
+"application/msonenote",
+"application/vnd.ms-powerpoint",
+"application/vnd.ms-powerpoint.template.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.presentationml.template",
+"application/vnd.ms-powerpoint.addin.macroenabled.12",
+
+"application/vnd.ms-powerpoint.slideshow.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+"application/vnd.ms-powerpoint.presentation.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.presentationml.presentation",
+"x-ptc/x-part",
+"application/vnd.ms-publisher",
+"application/x-rar-compressed",
+"application/rsd+xml",
+"application/rtf",
+"text/richtext",
+"application/vnd.stardivision.draw",
+"application/vnd.stardivision.calc",
+"application/sdp",
+"application/vnd.stardivision.writer",
+"application/vnd.ms-powerpoint.slide.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.presentationml.slide",
+"application/x-tar",
+"image/tiff",
+"text/plain",
+"application/visio",
+"audio/wav",
+"audio/x-ms-wax",
+"video/x-ms-wm",
+"audio/x-ms-wma",
+"application/x-ms-wmd",
+"video/x-ms-wmv",
+"video/x-ms-wmx",
+"application/vnd.ms-wpl",
+"video/x-ms-wvx",
+"application/vnd.ms-excel.addin.macroenabled.12",
+"application/vnd.ms-excel.sheet.binary.macroenabled.12",
+"application/vnd.ms-excel.sheet.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+"application/vnd.ms-excel.template.macroenabled.12",
+"application/vnd.openxmlformats-officedocument.spreadsheetml.template",
+"text/xml",
+"application/vnd.ms-xpsdocument",
+"application/xml",
+
+"application/zip",
+"application/ed",
+"application/octet-stream",
+"image/svg+xml"
+]
+},
+"PersistenceProviderPackageConfigs": {
+"PostgresPersistenceProviderPackage": {
+"ConnectionInformation": {
+"driverClass": "org.postgresql.Driver",
+"jdbcUrl": "jdbc:postgresql://cl-gss-thingworx-storage-data.cpuz5conexqr.us-east-1.rds.amazonaws.com:5432/cl-gss-thingworx-storagedata",
+"password": "xxxxxxxx",
+"username": "Admin"
+}
+}
+}
+}
+
+
