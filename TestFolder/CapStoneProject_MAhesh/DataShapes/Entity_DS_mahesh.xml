@@ -7,13 +7,14 @@
  revision="4"
  schemaVersion="1053"
  universal="password">
-    <StyleDefinitions>
-        <StyleDefinition
+    <DataShapes>
+        <DataShape
+         baseDataShape=""
          description=""
          documentationContent=""
          homeMashup=""
-         name="CapStoneBG"
-         projectName="CapstoneProj"
+         name="Entity_DS_mahesh"
+         projectName="CapStoneProject_MAhesh"
          tags="">
             <avatar></avatar>
             <DesignTimePermissions>
@@ -29,24 +30,20 @@
             </VisibilityPermissions>
             <ConfigurationTableDefinitions></ConfigurationTableDefinitions>
             <ConfigurationTables></ConfigurationTables>
-            <content>
-            <![CDATA[
-            {
-              "backgroundColor" : "rgba(0,0,0,1)",
-              "displayString" : "",
-              "fontEmphasisBold" : false,
-              "fontEmphasisItalic" : false,
-              "fontEmphasisUnderline" : false,
-              "foregroundColor" : "rgba(255,255,255,1)",
-              "image" : "",
-              "lineColor" : "",
-              "lineStyle" : "solid",
-              "lineThickness" : 1,
-              "secondaryBackgroundColor" : "",
-              "textSize" : "normal"
-            }
-            ]]>
-            </content>
-        </StyleDefinition>
-    </StyleDefinitions>
+            <FieldDefinitions>
+                <FieldDefinition
+                 aspect.isPrimaryKey="false"
+                 baseType="STRING"
+                 description=""
+                 name="description"
+                 ordinal="2"></FieldDefinition>
+                <FieldDefinition
+                 aspect.isPrimaryKey="false"
+                 baseType="STRING"
+                 description=""
+                 name="name"
+                 ordinal="1"></FieldDefinition>
+            </FieldDefinitions>
+        </DataShape>
+    </DataShapes>
 </Entities>

@@ -14,11 +14,11 @@
          documentationContent=""
          effectiveThingPackage="ConfiguredThing"
          homeMashup=""
-         name="CapStoneTemplate"
-         projectName="CapstoneProj"
+         name="CapstoneTT"
+         projectName="CapStoneProject_MAhesh"
          tags=""
          thingPackage=""
-         valueStream="Srijith_VS">
+         valueStream="CapstoneVS">
             <avatar></avatar>
             <DesignTimePermissions>
                 <Create></Create>
@@ -41,15 +41,11 @@
                 <AlertDefinitions
                  name="AccidentLostTime"></AlertDefinitions>
                 <AlertDefinitions
-                 name="CapacityUtilization"></AlertDefinitions>
-                <AlertDefinitions
                  name="Latitude"></AlertDefinitions>
-                <AlertDefinitions
-                 name="Location"></AlertDefinitions>
                 <AlertDefinitions
                  name="Longitude"></AlertDefinitions>
                 <AlertDefinitions
-                 name="ManufacturingCost"></AlertDefinitions>
+                 name="MfCost"></AlertDefinitions>
                 <AlertDefinitions
                  name="OrderCycleTime"></AlertDefinitions>
                 <AlertDefinitions
@@ -57,7 +53,7 @@
                 <AlertDefinitions
                  name="QualityCost"></AlertDefinitions>
                 <AlertDefinitions
-                 name="TestCheyanProp"></AlertDefinitions>
+                 name="Util"></AlertDefinitions>
                 <AlertDefinitions
                  name="Wastage"></AlertDefinitions>
                 <AlertDefinitions
@@ -85,30 +81,8 @@
                      category=""
                      description=""
                      isLocalOnly="false"
-                     name="CapacityUtilization"
-                     ordinal="7"></PropertyDefinition>
-                    <PropertyDefinition
-                     aspect.cacheTime="0.0"
-                     aspect.dataChangeType="VALUE"
-                     aspect.isLogged="true"
-                     aspect.isPersistent="true"
-                     baseType="NUMBER"
-                     category=""
-                     description=""
-                     isLocalOnly="false"
                      name="Latitude"
                      ordinal="3"></PropertyDefinition>
-                    <PropertyDefinition
-                     aspect.cacheTime="0.0"
-                     aspect.dataChangeType="VALUE"
-                     aspect.isLogged="true"
-                     aspect.isPersistent="true"
-                     baseType="LOCATION"
-                     category=""
-                     description=""
-                     isLocalOnly="false"
-                     name="Location"
-                     ordinal="12"></PropertyDefinition>
                     <PropertyDefinition
                      aspect.cacheTime="0.0"
                      aspect.dataChangeType="VALUE"
@@ -129,7 +103,7 @@
                      category=""
                      description=""
                      isLocalOnly="false"
-                     name="ManufacturingCost"
+                     name="MfCost"
                      ordinal="9"></PropertyDefinition>
                     <PropertyDefinition
                      aspect.cacheTime="0.0"
@@ -167,12 +141,14 @@
                     <PropertyDefinition
                      aspect.cacheTime="0.0"
                      aspect.dataChangeType="VALUE"
-                     baseType="STRING"
+                     aspect.isLogged="true"
+                     aspect.isPersistent="true"
+                     baseType="NUMBER"
                      category=""
                      description=""
                      isLocalOnly="false"
-                     name="TestCheyanProp"
-                     ordinal="13"></PropertyDefinition>
+                     name="Util"
+                     ordinal="7"></PropertyDefinition>
                     <PropertyDefinition
                      aspect.cacheTime="0.0"
                      aspect.dataChangeType="VALUE"

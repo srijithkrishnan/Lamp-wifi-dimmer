@@ -12,8 +12,8 @@
          description=""
          documentationContent=""
          homeMashup=""
-         name="CapStonePanelBG"
-         projectName="CapstoneProj"
+         name="panel_mahesh"
+         projectName="CapStoneProject_MAhesh"
          tags="">
             <avatar></avatar>
             <DesignTimePermissions>
@@ -32,17 +32,17 @@
             <content>
             <![CDATA[
             {
-              "backgroundColor" : "rgba(31,29,10,1)",
+              "backgroundColor" : "rgba(27,60,132,1)",
               "displayString" : "",
-              "fontEmphasisBold" : true,
+              "fontEmphasisBold" : false,
               "fontEmphasisItalic" : false,
               "fontEmphasisUnderline" : false,
-              "foregroundColor" : "rgba(251,254,253,1)",
+              "foregroundColor" : "",
               "image" : "",
               "lineColor" : "",
               "lineStyle" : "solid",
               "lineThickness" : 1,
-              "secondaryBackgroundColor" : "rgba(252,254,251,1)",
+              "secondaryBackgroundColor" : "",
               "textSize" : "normal"
             }
             ]]>

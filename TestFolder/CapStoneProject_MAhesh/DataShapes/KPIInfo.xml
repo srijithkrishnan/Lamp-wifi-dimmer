@@ -13,8 +13,8 @@
          description=""
          documentationContent=""
          homeMashup=""
-         name="ThingDataDS"
-         projectName="CapstoneProj"
+         name="KPIInfo"
+         projectName="CapStoneProject_MAhesh"
          tags="">
             <avatar></avatar>
             <DesignTimePermissions>
@@ -32,77 +32,53 @@
             <ConfigurationTables></ConfigurationTables>
             <FieldDefinitions>
                 <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
+                 aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
                  name="AccidentLostTime"
-                 ordinal="11"></FieldDefinition>
-                <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
-                 baseType="NUMBER"
-                 description=""
-                 name="CapacityUtilization"
                  ordinal="7"></FieldDefinition>
                 <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
+                 aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
-                 name="ManufacturingCost"
-                 ordinal="9"></FieldDefinition>
+                 name="MfCost"
+                 ordinal="3"></FieldDefinition>
                 <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
+                 aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
                  name="OrderCycleTime"
-                 ordinal="10"></FieldDefinition>
+                 ordinal="5"></FieldDefinition>
                 <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
+                 aspect.isPrimaryKey="false"
                  baseType="STRING"
                  description=""
                  name="PlantName"
-                 ordinal="2"></FieldDefinition>
+                 ordinal="1"></FieldDefinition>
                 <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
+                 aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
                  name="QualityCost"
+                 ordinal="6"></FieldDefinition>
+                <FieldDefinition
+                 aspect.isPrimaryKey="false"
+                 baseType="NUMBER"
+                 description=""
+                 name="UtilCapacity"
                  ordinal="8"></FieldDefinition>
                 <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
+                 aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
                  name="Wastage"
-                 ordinal="6"></FieldDefinition>
+                 ordinal="4"></FieldDefinition>
                 <FieldDefinition
-                 aspect.cacheTime="0.0"
-                 aspect.dataChangeType="VALUE"
-                 aspect.isLogged="true"
-                 aspect.isPersistent="true"
+                 aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
                  name="Yield"
-                 ordinal="5"></FieldDefinition>
+                 ordinal="2"></FieldDefinition>
             </FieldDefinitions>
         </DataShape>
     </DataShapes>

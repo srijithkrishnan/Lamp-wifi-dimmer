@@ -15,11 +15,11 @@
          enabled="true"
          homeMashup=""
          identifier=""
-         name="CapStoneThing1"
-         projectName="CapstoneProj"
+         name="Kolkata"
+         projectName="CapStoneProject_MAhesh"
          published="false"
          tags=""
-         thingTemplate="CapStoneTemplate"
+         thingTemplate="CapstoneTT"
          valueStream="">
             <avatar></avatar>
             <DesignTimePermissions>
@@ -50,63 +50,58 @@
             <AlertConfigurations></AlertConfigurations>
             <ImplementedShapes></ImplementedShapes>
             <ThingProperties>
-                <ManufacturingCost>
-                    <Value>10.0</Value>
-                    <Timestamp>2020-03-19T12:52:40.395Z</Timestamp>
+                <MfCost>
+                    <Value>45.0</Value>
+                    <Timestamp>2020-03-18T16:32:49.088Z</Timestamp>
                     <Quality>GOOD</Quality>
-                </ManufacturingCost>
+                </MfCost>
                 <OrderCycleTime>
-                    <Value>5.598</Value>
-                    <Timestamp>2020-03-19T12:52:47.604Z</Timestamp>
+                    <Value>63.0</Value>
+                    <Timestamp>2020-03-18T16:32:56.848Z</Timestamp>
                     <Quality>GOOD</Quality>
                 </OrderCycleTime>
-                <CapacityUtilization>
-                    <Value>20.28</Value>
-                    <Timestamp>2020-03-19T12:52:27.795Z</Timestamp>
-                    <Quality>GOOD</Quality>
-                </CapacityUtilization>
                 <AccidentLostTime>
-                    <Value>4.45</Value>
-                    <Timestamp>2020-03-19T12:52:20.890Z</Timestamp>
+                    <Value>59.0</Value>
+                    <Timestamp>2020-03-18T16:32:41.409Z</Timestamp>
                     <Quality>GOOD</Quality>
                 </AccidentLostTime>
                 <Latitude>
-                    <Value>10.26</Value>
-                    <Timestamp>2020-03-17T06:56:00.409Z</Timestamp>
-                    <Quality>GOOD</Quality>
+                    <Value>0.0</Value>
+                    <Timestamp>1970-01-01T00:00:00.000Z</Timestamp>
+                    <Quality>UNKNOWN</Quality>
                 </Latitude>
+                <Util>
+                    <Value>25.0</Value>
+                    <Timestamp>2020-03-18T16:33:25.557Z</Timestamp>
+                    <Quality>GOOD</Quality>
+                </Util>
                 <Wastage>
-                    <Value>55.59</Value>
-                    <Timestamp>2020-03-19T12:53:04.835Z</Timestamp>
+                    <Value>65.0</Value>
+                    <Timestamp>2020-03-18T16:33:33.757Z</Timestamp>
                     <Quality>GOOD</Quality>
                 </Wastage>
                 <Yield>
-                    <Value>33.3</Value>
-                    <Timestamp>2020-03-19T12:53:13.600Z</Timestamp>
+                    <Value>20.0</Value>
+                    <Timestamp>2020-03-18T16:33:39.832Z</Timestamp>
                     <Quality>GOOD</Quality>
                 </Yield>
                 <PlantName>
                     <Value>
                     <![CDATA[
-                    Chennai
+                    Kolkata
                     ]]>
                     </Value>
-                    <Timestamp>2020-03-17T06:48:33.970Z</Timestamp>
+                    <Timestamp>2020-03-18T16:33:06.093Z</Timestamp>
                     <Quality>GOOD</Quality>
                 </PlantName>
                 <Longitude>
-                    <Value>76.85</Value>
-                    <Timestamp>2020-03-17T06:56:10.444Z</Timestamp>
-                    <Quality>GOOD</Quality>
+                    <Value>0.0</Value>
+                    <Timestamp>1970-01-01T00:00:00.000Z</Timestamp>
+                    <Quality>UNKNOWN</Quality>
                 </Longitude>
-                <Location>
-                    <Value>10.26,76.85,0.0</Value>
-                    <Timestamp>2020-03-19T09:22:12.199Z</Timestamp>
-                    <Quality>GOOD</Quality>
-                </Location>
                 <QualityCost>
-                    <Value>89.99</Value>
-                    <Timestamp>2020-03-19T12:52:58.155Z</Timestamp>
+                    <Value>15.0</Value>
+                    <Timestamp>2020-03-18T16:33:13.798Z</Timestamp>
                     <Quality>GOOD</Quality>
                 </QualityCost>
             </ThingProperties>

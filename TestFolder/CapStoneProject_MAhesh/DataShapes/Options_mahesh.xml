@@ -13,8 +13,8 @@
          description=""
          documentationContent=""
          homeMashup=""
-         name="PlantAndLocDS"
-         projectName="CapstoneProj"
+         name="Options_mahesh"
+         projectName="CapStoneProject_MAhesh"
          tags="">
             <avatar></avatar>
             <DesignTimePermissions>
@@ -32,23 +32,26 @@
             <ConfigurationTables></ConfigurationTables>
             <FieldDefinitions>
                 <FieldDefinition
+                 aspect.defaultValue="1.0"
                  aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
-                 name="Lat"
-                 ordinal="2"></FieldDefinition>
+                 name="One"
+                 ordinal="1"></FieldDefinition>
                 <FieldDefinition
+                 aspect.defaultValue="3.0"
                  aspect.isPrimaryKey="false"
                  baseType="NUMBER"
                  description=""
-                 name="Long"
+                 name="Three"
                  ordinal="3"></FieldDefinition>
                 <FieldDefinition
+                 aspect.defaultValue="2.0"
                  aspect.isPrimaryKey="false"
-                 baseType="STRING"
+                 baseType="NUMBER"
                  description=""
-                 name="PlantName"
-                 ordinal="1"></FieldDefinition>
+                 name="Two"
+                 ordinal="2"></FieldDefinition>
             </FieldDefinitions>
         </DataShape>
     </DataShapes>

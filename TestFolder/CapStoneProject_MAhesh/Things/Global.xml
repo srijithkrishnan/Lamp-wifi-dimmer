@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Entities
+ build="b222"
+ majorVersion="8"
+ minorVersion="5"
+ modelPersistenceProviderPackage="PostgresPersistenceProviderPackage"
+ revision="4"
+ schemaVersion="1053"
+ universal="password">
+    <Things>
+        <Thing
+         description=""
+         documentationContent=""
+         effectiveThingPackage="ConfiguredThing"
+         enabled="true"
+         homeMashup=""
+         identifier=""
+         name="Global"
+         projectName="CapStoneProject_MAhesh"
+         published="false"
+         tags=""
+         thingTemplate="GenericThing"
+         valueStream="">
+            <avatar></avatar>
+            <DesignTimePermissions>
+                <Create></Create>
+                <Read></Read>
+                <Update></Update>
+                <Delete></Delete>
+                <Metadata></Metadata>
+            </DesignTimePermissions>
+            <RunTimePermissions></RunTimePermissions>
+            <VisibilityPermissions>
+                <Visibility></Visibility>
+            </VisibilityPermissions>
+            <ConfigurationTableDefinitions></ConfigurationTableDefinitions>
+            <ConfigurationTables></ConfigurationTables>
+            <ThingShape>
+                <PropertyDefinitions>
+                    <PropertyDefinition
+                     aspect.cacheTime="0.0"
+                     aspect.dataChangeType="VALUE"
+                     aspect.dataShape="PlantLocation"
+                     baseType="INFOTABLE"
+                     category=""
+                     description=""
+                     isLocalOnly="false"
+                     name="pass"
+                     ordinal="2"></PropertyDefinition>
+                </PropertyDefinitions>
+                <ServiceDefinitions>
+                    <ServiceDefinition
+                     aspect.isAsync="false"
+                     category=""
+                     description=""
+                     isAllowOverride="false"
+                     isLocalOnly="false"
+                     isOpen="false"
+                     isPrivate="false"
+                     name="GetKPIData">
+                        <ResultType
+                         aspect.dataShape="KPIInfo"
+                         baseType="INFOTABLE"
+                         description=""
+                         name="result"
+                         ordinal="0"></ResultType>
+                        <ParameterDefinitions></ParameterDefinitions>
+                    </ServiceDefinition>
+                    <ServiceDefinition
+                     aspect.isAsync="false"
+                     category=""
+                     description=""
+                     isAllowOverride="false"
+                     isLocalOnly="false"
+                     isOpen="false"
+                     isPrivate="false"
+                     name="GetMapLocations">
+                        <ResultType
+                         aspect.dataShape="PlantLocation"
+                         baseType="INFOTABLE"
+                         description=""
+                         name="result"
+                         ordinal="0"></ResultType>
+                        <ParameterDefinitions></ParameterDefinitions>
+                    </ServiceDefinition>
+                </ServiceDefinitions>
+                <EventDefinitions></EventDefinitions>
+                <ServiceMappings></ServiceMappings>
+                <ServiceImplementations>
+                    <ServiceImplementation
+                     description=""
+                     handlerName="Script"
+                     name="GetKPIData">
+                        <ConfigurationTables>
+                            <ConfigurationTable
+                             description=""
+                             isMultiRow="false"
+                             name="Script"
+                             ordinal="0">
+                                <DataShape>
+                                    <FieldDefinitions>
+                                        <FieldDefinition
+                                         baseType="STRING"
+                                         description="code"
+                                         name="code"
+                                         ordinal="0"></FieldDefinition>
+                                    </FieldDefinitions>
+                                </DataShape>
+                                <Rows>
+                                    <Row>
+                                        <code>
+                                        <![CDATA[
+                                        var params = {
+                                            infoTableName : "InfoTable",
+                                            dataShapeName : "KPIInfo"
+                                        };
+                                        
+                                        // CreateInfoTableFromDataShape(infoTableName:STRING("InfoTable"), dataShapeName:STRING):INFOTABLE(KPIInfo)
+                                        var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+                                        
+                                        var yldparams = {
+                                            propertyName: "Yield"
+                                        };
+                                        
+                                        var wstparams = {
+                                            propertyName: "Wastage"
+                                        };
+                                        
+                                        var cpyparams = {
+                                            propertyName: "Util"
+                                        };
+                                        
+                                        var qltyparams = {
+                                            propertyName: "QualityCost"
+                                        };
+                                        
+                                        var mnfparams = {
+                                            propertyName: "MfCost"
+                                        };
+                                        
+                                        var ordparams = {
+                                            propertyName: "OrderCycleTime"
+                                        };
+                                        
+                                        var acdparams = {
+                                            propertyName: "AccidentLostTime"
+                                        };
+                                        
+                                        var nameparams = {
+                                            propertyName: "PlantName"
+                                        };
+                                        
+                                        
+                                        // result: INFOTABLE dataShape: "RootEntityList"
+                                        var resultnew =  ThingTemplates["CapstoneTT"].GetImplementingThingsWithData();
+                                        
+                                        for( var i=0; i< resultnew.getRowCount(); i++)
+                                        {
+                                        var plantThing = Things[resultnew.rows[i].name];
+                                            var newEntry = new Object();
+                                           
+                                            newEntry.Yield = plantThing.GetNumberPropertyValue(yldparams);
+                                            newEntry.Wastage = plantThing.GetNumberPropertyValue(wstparams);
+                                             newEntry.UtilCapacity = plantThing.GetNumberPropertyValue(cpyparams);
+                                             newEntry.QualityCost = plantThing.GetNumberPropertyValue(qltyparams);
+                                             newEntry.MfCost = plantThing.GetNumberPropertyValue(mnfparams);
+                                             newEntry.OrderCycleTime = plantThing.GetNumberPropertyValue(ordparams);
+                                             newEntry.AccidentLostTime = plantThing.GetNumberPropertyValue(acdparams);
+                                             newEntry.PlantName = plantThing.GetStringPropertyValue(nameparams);
+                                            
+                                            result.AddRow(newEntry);
+                                        }
+                                        ]]>
+                                        </code>
+                                    </Row>
+                                </Rows>
+                            </ConfigurationTable>
+                        </ConfigurationTables>
+                    </ServiceImplementation>
+                    <ServiceImplementation
+                     description=""
+                     handlerName="Script"
+                     name="GetMapLocations">
+                        <ConfigurationTables>
+                            <ConfigurationTable
+                             description=""
+                             isMultiRow="false"
+                             name="Script"
+                             ordinal="0">
+                                <DataShape>
+                                    <FieldDefinitions>
+                                        <FieldDefinition
+                                         baseType="STRING"
+                                         description="code"
+                                         name="code"
+                                         ordinal="0"></FieldDefinition>
+                                    </FieldDefinitions>
+                                </DataShape>
+                                <Rows>
+                                    <Row>
+                                        <code>
+                                        <![CDATA[
+                                        var params = {
+                                            infoTableName : "InfoTable",
+                                            dataShapeName : "PlantLocation"
+                                        };
+                                        
+                                        // CreateInfoTableFromDataShape(infoTableName:STRING("InfoTable"), dataShapeName:STRING):INFOTABLE(PlantLocation)
+                                        var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+                                        
+                                        var latparams = {
+                                            propertyName: "Latitude"
+                                        };
+                                        
+                                        var lngparams = {
+                                            propertyName: "Longitude"
+                                        };
+                                        
+                                        var nameparams = {
+                                            propertyName: "PlantName"
+                                        };
+                                          // result: INFOTABLE dataShape: "RootEntityList"
+                                        var resultnew =  ThingTemplates["CapstoneTT"].GetImplementingThingsWithData();
+                                        
+                                        for( var i=0; i< resultnew.getRowCount(); i++)
+                                        {
+                                        var plantThing = Things[resultnew.rows[i].name];
+                                            var newEntry = new Object();
+                                           
+                                            newEntry.Latitude = plantThing.GetNumberPropertyValue(latparams);
+                                            newEntry.Longitude = plantThing.GetNumberPropertyValue(lngparams);
+                                            newEntry.PlantName = plantThing.GetStringPropertyValue(nameparams);
+                                            result.AddRow(newEntry);
+                                        }
+                                        me.pass =result;
+                                        ]]>
+                                        </code>
+                                    </Row>
+                                </Rows>
+                            </ConfigurationTable>
+                        </ConfigurationTables>
+                    </ServiceImplementation>
+                </ServiceImplementations>
+                <Subscriptions></Subscriptions>
+            </ThingShape>
+            <PropertyBindings></PropertyBindings>
+            <RemotePropertyBindings></RemotePropertyBindings>
+            <RemoteServiceBindings></RemoteServiceBindings>
+            <RemoteEventBindings></RemoteEventBindings>
+            <AlertConfigurations>
+                <AlertDefinitions
+                 name="pass"></AlertDefinitions>
+            </AlertConfigurations>
+            <ImplementedShapes></ImplementedShapes>
+            <ThingProperties></ThingProperties>
+        </Thing>
+    </Things>
+</Entities>
